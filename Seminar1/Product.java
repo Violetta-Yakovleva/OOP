@@ -6,37 +6,79 @@ package Seminar1;
 
 public class Product {
 
-    private String name; // наименование товара
-    private String brand; // изготовитель
-    private double price; // цена
+    protected String name; // наименование товара
+    protected String brand; // изготовитель
+    protected double price; // цена
 
-    public double getPrice(){
-        return price;
+    public String getName() {
+        return this.name;
     }
 
-    public void setPrice(double price){
-        this.price = price;
+    public void setName(String name) {
+        this.checkName(name);
     }
 
-
-
-    public Product(){
-
+    public String getBrand() {
+        return this.brand;
     }
 
-    public Product(String name){
-        this.name = name;
-        brand = "Noname";
-        price = 100;
+    public void setBrand(String brand) {
+        this.checkBrand(brand);
     }
 
-    public Product(String name, String brand, double price) { // конструктор - название как у класса! инициализация состояния объекта - мы создали свой конструктор!
-        this.name = name;
-        this.brand = brand;
-        this.price = price;
+    public double getPrice() {
+        return this.price;
     }
 
-    public String displayInfo(){
-        return String.format("%s - %s - %.2f", name, brand, price);
+    public void setPrice(double price) {
+        if (price < 100.0) {
+            throw new RuntimeException("Некорректная цена товара.");
+        } else {
+            this.price = price;
         }
+    }
+
+    public Product() {
+        this("Noname");
+    }
+
+    public Product(String name) {
+        this(name, "Noname");
+    }
+
+    public Product(String name, String brand) {
+        this(name, brand, 100.0);
+    }
+
+    public Product(String name, String brand, double price) {
+        if (price < 100.0) {
+            throw new RuntimeException("Некорректная цена товара.");
+        } else {
+            this.price = price;
+            this.checkName(name);
+            this.checkBrand(brand);
+        }
+    }
+
+    private void checkName(String name) {
+        if (name != null && name.length() >= 3) {
+            this.name = name;
+        } else {
+            this.name = "Noname";
+        }
+
+    }
+
+    private void checkBrand(String brand) {
+        if (brand != null && brand.length() >= 3) {
+            this.brand = brand;
+        } else {
+            this.brand = "Noname";
+        }
+
+    }
+
+    public String displayInfo() {
+        return String.format("%s - %s - %.2f", this.name, this.brand, this.price);
+    }
 }
